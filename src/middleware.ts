@@ -19,8 +19,10 @@ export function middleware(request: NextRequest) {
   const user = {
     name: "Mir",
     token: "sdlfkjiue",
-    role: "ADMIN"
+    role: "USER"
   };
+
+  // const user = undefined;
 
   if(!user){
     if(AuthRoutes.includes(pathname)){

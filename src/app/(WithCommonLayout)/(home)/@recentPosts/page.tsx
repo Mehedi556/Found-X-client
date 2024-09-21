@@ -8,7 +8,7 @@ import Card from "@/src/components/UI/Card";
 import Container from "@/src/components/UI/Container";
 
 const RecentPosts = async () => {
-    const {data: posts} = await getRecentPost()
+    // const {data: posts} = await getRecentPost()
   return (
     <Container>
       <div className="section-title my-8">
@@ -19,9 +19,9 @@ const RecentPosts = async () => {
       </div>
       <div className="my-8 grid justify-center gap-10 sm:grid-cols-1 md:grid-cols-3">
 
-        {posts.map((post: IPost) => (
+        {/* {posts.map((post: IPost) => (
           <Card key={post?._id} post={post} />
-        ))}
+        ))} */}
 
       </div>
       <div className="flex justify-center">
