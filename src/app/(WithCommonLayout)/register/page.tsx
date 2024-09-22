@@ -1,26 +1,30 @@
 
 "use client";
 
-// import FXForm from "@/src/components/form/FXForm";
-// import FXInput from "@/src/components/form/FXInput";
+import FXForm from "@/src/components/form/FXForm";
+import FXInput from "@/src/components/form/FXInput";
+import { useUserRegistration } from "@/src/hooks/auth.hook";
 // import { useUserRegistration } from "@/src/hooks/auth.hook";
-// import registerValidationSchema from "@/src/schemas/register.schema";
+import registerValidationSchema from "@/src/schemas/register.schema";
+import { registerUser } from "@/src/services/AuthService";
 // import { registerUser } from "@/src/services/AuthService";
-// import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 // import { useMutation } from "@tanstack/react-query";
 import { Button } from "@nextui-org/button";
+import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 import { useEffect } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 
 export default function RegisterPage() {
-  // const { mutate: handleUserRegistration, isPending } = useUserRegistration();
 
-  //   useEffect(() => {
-  //     if (isPending) {
+  const { mutate:handleUserRegistration, isPending } = useUserRegistration()
+
+    // useEffect(() => {
+    //   if (isPending) {
         // Handle Loading satate
-  //     }
-  //   }, [isPending]);
+    //   }
+    // }, [isPending]);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const userData = {
@@ -29,13 +33,11 @@ export default function RegisterPage() {
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
     };
 
-    console.log("Inside form user data: ", userData);
-
-    // handleUserRegistration(userData);
+    handleUserRegistration(userData)
   };
 
   // if (isPending) {
-    //  handle loading state
+  //   //  handle loading state
   // }
 
   return (
@@ -43,7 +45,7 @@ export default function RegisterPage() {
       <h3 className="my-2 text-xl font-bold">Register with FoundX</h3>
       <p className="mb-4">Help Lost Items Find Their Way Home</p>
       <div className="w-[35%]">
-        {/* <FXForm
+        <FXForm
           defaultValues={{
             name: "Mir Hussain",
             email: "mir@gmail.com",
@@ -52,23 +54,23 @@ export default function RegisterPage() {
           }}
           resolver={zodResolver(registerValidationSchema)}
           onSubmit={onSubmit}
-        > */}
+        >
           <div className="py-3">
-            {/* <FXInput label="Name" name="name" size="sm" /> */}
+            <FXInput label="Name" name="name" size="sm" />
           </div>
           <div className="py-3">
-            {/* <FXInput label="Email" name="email" size="sm" /> */}
+            <FXInput label="Email" name="email" size="sm" />
           </div>
           <div className="py-3">
-            {/* <FXInput label="Mobile Number" name="mobileNumber" size="sm" /> */}
+            <FXInput label="Mobile Number" name="mobileNumber" size="sm" />
           </div>
           <div className="py-3">
-            {/* <FXInput
+            <FXInput
               label="Password"
               name="password"
               size="sm"
               type="password"
-            /> */}
+            />
           </div>
 
           <Button
@@ -78,7 +80,7 @@ export default function RegisterPage() {
           >
             Registration
           </Button>
-        {/* </FXForm> */}
+        </FXForm>
         <div className="text-center">
           Already have an account ? <Link href={"/login"}>Login</Link>
         </div>
