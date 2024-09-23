@@ -21,7 +21,7 @@ const FXForm = ({children, onSubmit, defaultValues, resolver}: IProps) => {
     if(!!resolver){
         formConfig["resolver"] = resolver
     }
-    const methods = useForm()
+    const methods = useForm(formConfig)
     
     const submitHandler = methods.handleSubmit
   return (
