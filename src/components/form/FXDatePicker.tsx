@@ -1,17 +1,16 @@
 import { IInput } from '@/src/types'
 import { DatePicker } from '@nextui-org/date-picker'
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 
 interface IProps extends IInput{}
 
-const FXDatePicker = ({label, name}: IProps) => {
-    const { register, formState: { errors} } = useFormContext();
+const FXDatePicker = ({label, name, variant = 'bordered'}: IProps) => {
   return (
     <Controller 
     name={name}
-    render={() => <DatePicker label={label} className="max-w-[284px]" />}
+    render={({ field: { value, ...fields }}) => <DatePicker label={label} className="min-w-full sm:min-w-[225px]" variant={variant} {...fields}/>}
     />
   )
 }
 
-export default FXDatePicker
+export default FXDatePicker;

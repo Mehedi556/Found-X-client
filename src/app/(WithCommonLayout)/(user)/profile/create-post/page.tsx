@@ -9,33 +9,35 @@ import {
   useFieldArray,
   useForm,
 } from "react-hook-form";
-// import { allDistict } from "@bangladeshi/bangladesh-address";
+import { allDistict } from "@bangladeshi/bangladesh-address";
 import { ChangeEvent, useState } from "react";
 
 import FXInput from "@/src/components/form/FXInput";
-// import FXDatePicker from "@/src/components/form/FXDatePicker";
+import FXDatePicker from "@/src/components/form/FXDatePicker";
 // import dateToISO from "@/src/utils/dateToISO";
-// import FXSelect from "@/src/components/form/FXSelect";
-// import { useGetCategories } from "@/src/hooks/categoreis.hook";
+import FXSelect from "@/src/components/form/FXSelect";
+import { useGetCategories } from "@/src/hooks/categories.hook";
 // import FXTextarea from "@/src/components/form/FXTextArea";
 // import { AddIcon, TrashIcon } from "@/src/assets/icons";
 import { useUser } from "@/src/context/user.provider";
 // import { useCreatePost } from "@/src/hooks/post.hook";
 import Loading from "@/src/components/UI/Loading";
 import { useRouter } from "next/navigation";
+import dateToISO from "@/src/utils/dateToISO";
 
-// const cityOptions = allDistict()
-//   .sort()
-//   .map((city: string) => {
-//     return {
-//       key: city,
-//       label: city,
-//     };
-//   });
+const cityOptions = allDistict()
+  .sort()
+  .map((city: string) => {
+    return {
+      key: city,
+      label: city,
+    };
+  });
 
 export default function CreatePost() {
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
   const [imagePreviews, setImagePreviews] = useState<string[] | []>([]);
+  console.log(imagePreviews);
 
   const router = useRouter();
 
@@ -47,22 +49,22 @@ export default function CreatePost() {
 
   const { user } = useUser();
 
-  // const {
-  //   data: categoriesData,
-  //   isLoading: categoryLoading,
-  //   isSuccess: categorySuccess,
-  // } = useGetCategories();
+  const {
+    data: categoriesData,
+    isLoading: categoryLoading,
+    isSuccess: categorySuccess,
+  } = useGetCategories();
 
   let categoryOption: { key: string; label: string }[] = [];
 
-  // if (categoriesData?.data && !categoryLoading) {
-  //   categoryOption = categoriesData.data
-  //     .sort()
-  //     .map((category: { _id: string; name: string }) => ({
-  //       key: category._id,
-  //       label: category.name,
-  //     }));
-  // }
+  if (categoriesData?.data && !categoryLoading) {
+    categoryOption = categoriesData.data
+      .sort()
+      .map((category: { _id: string; name: string }) => ({
+        key: category._id,
+        label: category.name,
+      }));
+  }
 
   const methods = useForm();
 
@@ -76,12 +78,13 @@ export default function CreatePost() {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     const formData = new FormData();
 
-    // const postData = {
-    //   ...data,
-    //   questions: data.questions.map((que: { value: string }) => que.value),
-    //   dateFound: dateToISO(data.dateFound),
-    //   user: user!._id,
-    // };
+    const postData = {
+      ...data,
+      questions: data.questions.map((que: { value: string }) => que.value),
+      dateFound: dateToISO(data.dateFound),
+      // user: user!._id,
+    };
+    // console.log(postData);
 
     // formData.append("data", JSON.stringify(postData));
 
@@ -98,8 +101,9 @@ export default function CreatePost() {
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files![0];
-
+    
     setImageFiles((prev) => [...prev, file]);
+    
 
     if (file) {
       const reader = new FileReader();
@@ -129,7 +133,7 @@ export default function CreatePost() {
                 <FXInput label="Title" name="title" />
               </div>
               <div className="min-w-fit flex-1">
-                {/* <FXDatePicker label="Found date" name="dateFound" /> */}
+                <FXDatePicker label="Found date" name="dateFound" />
               </div>
             </div>
             <div className="flex flex-wrap gap-2 py-2">
@@ -137,17 +141,17 @@ export default function CreatePost() {
                 <FXInput label="Location" name="location" />
               </div>
               <div className="min-w-fit flex-1">
-                {/* <FXSelect label="City" name="city" options={cityOptions} /> */}
+                <FXSelect label="City" name="city" options={cityOptions} />
               </div>
             </div>
             <div className="flex flex-wrap gap-2 py-2">
               <div className="min-w-fit flex-1">
-                {/* <FXSelect
+                <FXSelect
                   disabled={!categorySuccess}
                   label="Category"
                   name="category"
                   options={categoryOption}
-                /> */}
+                />
               </div>
               <div className="min-w-fit flex-1">
                 <label
