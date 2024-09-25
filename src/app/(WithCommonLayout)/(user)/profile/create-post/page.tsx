@@ -11,16 +11,14 @@ import {
 } from "react-hook-form";
 import { allDistict } from "@bangladeshi/bangladesh-address";
 import { ChangeEvent, useState } from "react";
-
 import FXInput from "@/src/components/form/FXInput";
 import FXDatePicker from "@/src/components/form/FXDatePicker";
-// import dateToISO from "@/src/utils/dateToISO";
 import FXSelect from "@/src/components/form/FXSelect";
 import { useGetCategories } from "@/src/hooks/categories.hook";
-// import FXTextarea from "@/src/components/form/FXTextArea";
-// import { AddIcon, TrashIcon } from "@/src/assets/icons";
+import FXTextarea from "@/src/components/form/FXTextArea";
+import { AddIcon, TrashIcon } from "@/src/assets/icons";
 import { useUser } from "@/src/context/user.provider";
-// import { useCreatePost } from "@/src/hooks/post.hook";
+import { useCreatePost } from "@/src/hooks/post.hook";
 import Loading from "@/src/components/UI/Loading";
 import { useRouter } from "next/navigation";
 import dateToISO from "@/src/utils/dateToISO";
@@ -41,11 +39,11 @@ export default function CreatePost() {
 
   const router = useRouter();
 
-  // const {
-  //   mutate: handleCreatePost,
-  //   isPending: createPostPending,
-  //   isSuccess,
-  // } = useCreatePost();
+  const {
+    mutate: handleCreatePost,
+    isPending: createPostPending,
+    isSuccess,
+  } = useCreatePost();
 
   const { user } = useUser();
 
@@ -54,6 +52,7 @@ export default function CreatePost() {
     isLoading: categoryLoading,
     isSuccess: categorySuccess,
   } = useGetCategories();
+  console.log(categoriesData);
 
   let categoryOption: { key: string; label: string }[] = [];
 
@@ -82,17 +81,17 @@ export default function CreatePost() {
       ...data,
       questions: data.questions.map((que: { value: string }) => que.value),
       dateFound: dateToISO(data.dateFound),
-      // user: user!._id,
+      user: user!._id,
     };
-    // console.log(postData);
+    console.log(postData);
 
-    // formData.append("data", JSON.stringify(postData));
+    formData.append("data", JSON.stringify(postData));
 
-    // for (let image of imageFiles) {
-    //   formData.append("itemImages", image);
-    // }
+    for (let image of imageFiles) {
+      formData.append("itemImages", image);
+    }
 
-    // handleCreatePost(formData);
+    handleCreatePost(formData);
   };
 
   const handleFieldAppend = () => {
@@ -116,13 +115,15 @@ export default function CreatePost() {
     }
   };
 
-  // if (!createPostPending && isSuccess) {
-  //   router.push("/");
-  // }
+  if (!createPostPending && isSuccess) {
+    router.push("/");
+  }
 
   return (
     <>
-      {/* {createPostPending && <Loading />} */}
+      {
+        createPostPending && <Loading />
+      }
       <div className="h-full rounded-xl bg-gradient-to-b from-default-100 px-[73px] py-12">
         <h1 className="text-2xl font-semibold">Post a found item</h1>
         <Divider className="mb-5 mt-3" />
@@ -189,7 +190,7 @@ export default function CreatePost() {
 
             <div className="flex flex-wrap-reverse gap-2 py-2">
               <div className="min-w-fit flex-1">
-                {/* <FXTextarea label="Description" name="description" /> */}
+                <FXTextarea label="Description" name="description" />
               </div>
             </div>
 
@@ -198,7 +199,7 @@ export default function CreatePost() {
             <div className="flex justify-between items-center mb-5">
               <h1 className="text-xl">Owner verification questions</h1>
               <Button isIconOnly onClick={() => handleFieldAppend()}>
-                {/* <AddIcon /> */}
+                <AddIcon />
               </Button>
             </div>
 
@@ -211,7 +212,7 @@ export default function CreatePost() {
                     className="h-14 w-16"
                     onClick={() => remove(index)}
                   >
-                    {/* <TrashIcon /> */}
+                    <TrashIcon />
                   </Button>
                 </div>
               ))}

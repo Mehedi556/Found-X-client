@@ -21,7 +21,7 @@ import { siteConfig } from "@/src/config/site";
 import { ThemeSwitch } from "@/src/components/UI/theme-switch";
 import {
   Logo,
-} from "@/src/components/icons";
+} from "@/src/assets/icons";
 import NavbarDropdown from "./NavbarDropdown";
 import { useUser } from "@/src/context/user.provider";
 
